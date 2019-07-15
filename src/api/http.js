@@ -30,3 +30,13 @@ export const users = (({query,pagenum,pagesize})=>{
         }
     })
 })
+
+// 左侧菜单
+export const  menus = ()=>{
+    return managerAxios.get('/menus',{
+         // 设置请求头
+         headers:{
+            Authorization:window.sessionStorage.getItem('token')
+        }
+    })
+}

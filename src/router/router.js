@@ -9,6 +9,9 @@ Vue.use(VueRouter)
 import login from '../views/login.vue'
 import index from '../views/index.vue'
 
+// 导入嵌套路由
+import usersList from '../views/userslist.vue'
+
 
 // 规则
 const routes = [
@@ -27,7 +30,13 @@ const routes = [
   },
   {
     path: '/index',
-    component: index
+    component: index,
+    children:[
+        {
+            path:'usersList',
+            component:usersList
+        }
+    ]
   }
 ]
 

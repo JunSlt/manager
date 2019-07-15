@@ -23,81 +23,17 @@
     <el-container>
       <el-aside width="200px" class="my-asider">
         <!-- 左侧-elm-ui导航 -->
-        <el-menu default-active="2" class="el-menu-vertical-demo" unique-opened="false">
+        <el-menu default-active="2" class="el-menu-vertical-demo" :unique-opened="true">
           <!-- 用户管理 -->
-          <el-submenu index="1">
+          <el-submenu v-for="(item,index) in menusList" :index="index+'1'">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{item.authName}}</span>
             </template>
-            <el-menu-item-group>
+            <el-menu-item-group v-for="i in item.children">
               <el-menu-item index="1-1">
                 <i class="el-icon-menu"></i>
-                用户列表
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <!-- 权限管理 -->
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1">
-                <i class="el-icon-menu"></i>
-                角色管理
-              </el-menu-item>
-              <el-menu-item index="1-2">
-                <i class="el-icon-menu"></i>
-                权限列表
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <!-- 商品管理 -->
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>商品管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1">
-                <i class="el-icon-menu"></i>
-                商品列表
-              </el-menu-item>
-              <el-menu-item index="1-2">
-                <i class="el-icon-menu"></i>
-                分类参数
-              </el-menu-item>
-              <el-menu-item index="1-3">
-                <i class="el-icon-menu"></i>
-                商品分类
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <!-- 订单管理 -->
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>订单管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1">
-                <i class="el-icon-menu"></i>
-                订单列表
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <!-- 数据统计 -->
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>数据统计</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="1-1">
-                <i class="el-icon-menu"></i>
-                数据报表
+                {{i.authName}}
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -105,34 +41,60 @@
       </el-aside>
 
       <!-- 右侧 -->
-      <el-main class="my-main">Main</el-main>
+      <el-main class="my-main">
+          <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+// 引入menus
+import { menus } from "../api/http";
+import { users } from '../api/http'
 export default {
   name: "index",
+  data() {
+    return {
+        // 左侧栏
+      menusList: []
+    };
+  },
+  created() {
+    menus().then(backData => {
+      console.log(backData);
+      this.menusList = backData.data.data;
+    });
+    users({
+        pagenum:1,
+        pagesize:5
+    }).then(backData=>{
+        console.log(backData);
+        
+    })
+  },
   methods: {
-      tologin() {
-        this.$confirm('此操作将退出账号, 是否继续?', '警示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+    tologin() {
+      this.$confirm("此操作将退出账号, 是否继续?", "警示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
           this.$message({
-            type: 'success',
-            message: '退出成功!'
+            type: "success",
+            message: "退出成功!"
           });
-          this.$router.push('/login')
-        }).catch(() => {
+          this.$router.push("/login");
+        })
+        .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消'
-          });          
+            type: "info",
+            message: "已取消"
+          });
         });
-      }
     }
+  }
 };
 </script>
 
