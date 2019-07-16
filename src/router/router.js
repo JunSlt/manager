@@ -5,8 +5,10 @@ import Vue from "vue"
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+// 组件
 import login from '../views/login.vue'
 import index from '../views/index.vue'
+import error from '../views/error.vue'
 
 // 导入嵌套路由
 import users from '../views/users.vue'
@@ -70,6 +72,16 @@ const routes = [
         component: reports
       }
     ]
+  },
+  // 错误页
+  {
+    path:'/error',
+    component:error
+  },
+  // 兜底规则
+  {
+    path:'*',
+    redirect:'/error'
   }
 ]
 
@@ -81,7 +93,10 @@ const router = new VueRouter({
 // 增加导航守卫 
 router.beforeEach((to, from, next) => {
   // console.log('123')
-  if (to.meta.tologin !== false) {
+  if (to.meta.tologin == false) {
+    next()
+  } else {
+    // 不需要判断页面
     if (window.sessionStorage.getItem('token') !== undefined) {
       // 去吧
       next()
@@ -91,10 +106,7 @@ router.beforeEach((to, from, next) => {
       // 去登录页
       router.push('/login')
     }
-  } else {
-    // 不需要判断页面
-
-    next()
+    
   }
 })
 

@@ -6,6 +6,47 @@ const managerAxios = axios.create({
     baseURL: 'http://localhost:8888/api/private/v1/'
 })
 
+// 添加请求拦截器
+managerAxios.interceptors.request.use(
+    function(config) {
+      // 请求成功触发
+      console.log('请求成功')
+      // 添加请求头
+      // 添加token
+      config.headers.Authorization = window.sessionStorage.getItem('token')
+      return config
+    },
+    function(error) {
+      // 请求失败触发
+      return Promise.reject(error)
+    }
+  )
+  
+  // 添加响应拦截器
+  managerAxios.interceptors.response.use(
+    function(response) {
+      // 响应成功触发
+      console.log('响应成功')
+      // console.log(response)
+      if (
+        response.data.meta.status == 400 &&
+        response.data.meta.msg == '无效token'
+      ) {
+        // 伪造的token 坏人
+        // 删掉他
+        window.sessionStorage.clear()
+        // 打回去
+        router.push('/login')
+        // 弹框
+        new Vue().$message.error('哈麻皮，伪造token，滚！！！！')
+      }
+      return response
+    },
+    function(error) {
+      // 响应失败触发
+      return Promise.reject(error)
+    }
+  )
 
 
 
@@ -34,9 +75,9 @@ export const users = (({
             pagesize
         },
         // 设置请求头
-        headers: {
-            Authorization: window.sessionStorage.getItem('token')
-        }
+        // headers: {
+        //     Authorization: window.sessionStorage.getItem('token')
+        // }
     })
 })
 
@@ -44,8 +85,8 @@ export const users = (({
 export const menus = () => {
     return managerAxios.get('/menus', {
         // 设置请求头
-        headers: {
-            Authorization: window.sessionStorage.getItem('token')
-        }
+        // headers: {
+        //     Authorization: window.sessionStorage.getItem('token')
+        // }
     })
 }
