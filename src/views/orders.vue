@@ -1,20 +1,7 @@
 <template>
   <div>
       <!-- 面包屑  -->
-    <mybread nav1='用户管理' nav2="用户列表"></mybread>   
-    <!-- 输入框 -->
-    <el-col :span="6">
-      <div class="grid-content bg-purple">
-        <el-input placeholder="请输入内容" v-model="input5" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-input>
-      </div>
-    </el-col>
-    <el-col :span="2" class="my-input">
-      <div class="grid-content bg-purple-light">
-        <el-button type="success" plain>添加用户</el-button>
-      </div>
-    </el-col>
+    <mybread nav1='订单管理' nav2="订单列表"></mybread>   
     <!-- 表格 -->
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="date" label="日期" width="180"></el-table-column>
@@ -37,7 +24,7 @@
 
 <script>
 export default {
-  name: "users",
+  name: "orders",
   data() {
     return {
       tableData: [

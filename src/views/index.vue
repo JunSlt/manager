@@ -122,6 +122,7 @@ export default {
   .my-main {
     width: 100%;
     background-color: #e9eef3;
+    padding-top:0px;
   }
 }
 </style>

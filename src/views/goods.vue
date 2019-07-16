@@ -1,7 +1,7 @@
 <template>
   <div>
       <!-- 面包屑  -->
-    <mybread nav1='用户管理' nav2="用户列表"></mybread>   
+    <mybread nav1='商品管理' nav2="商品列表"></mybread>   
     <!-- 输入框 -->
     <el-col :span="6">
       <div class="grid-content bg-purple">

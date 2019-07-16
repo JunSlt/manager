@@ -13,6 +13,10 @@ import './assets/baes.css'
 // 导入自己抽取的router
 import router from './router/router'
 
+// 注册面包屑组件
+import mybread from './components/mybread.vue'
+Vue.component('mybread', mybread)
+
 new Vue({
   render: h => h(App),
   router
