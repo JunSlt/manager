@@ -23,17 +23,17 @@
     <el-container>
       <el-aside width="200px" class="my-asider">
         <!-- 左侧-elm-ui导航 -->
-        <el-menu default-active="2" class="el-menu-vertical-demo" :unique-opened="true">
+        <el-menu default-active="2" class="el-menu-vertical-demo" :unique-opened="true" :router="true">
           <!-- 用户管理 -->
-          <el-submenu v-for="(item,index) in menusList" :index="index+'1'">
+          <el-submenu v-for="(item,index) in menusList" :index="'1'+index">
             <template slot="title">
               <i class="el-icon-location"></i>
               <span>{{item.authName}}</span>
             </template>
-            <el-menu-item-group v-for="i in item.children">
-              <el-menu-item index="1-1">
+            <el-menu-item-group v-for="(it,i) in item.children">
+              <el-menu-item :index="'/index/'+it.path">
                 <i class="el-icon-menu"></i>
-                {{i.authName}}
+                {{it.authName}}
               </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -42,7 +42,7 @@
 
       <!-- 右侧 -->
       <el-main class="my-main">
-          <router-view></router-view>
+        <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -51,12 +51,12 @@
 <script>
 // 引入menus
 import { menus } from "../api/http";
-import { users } from '../api/http'
+import { users } from "../api/http";
 export default {
   name: "index",
   data() {
     return {
-        // 左侧栏
+      // 左侧栏
       menusList: []
     };
   },
@@ -66,12 +66,11 @@ export default {
       this.menusList = backData.data.data;
     });
     users({
-        pagenum:1,
-        pagesize:5
-    }).then(backData=>{
-        console.log(backData);
-        
-    })
+      pagenum: 1,
+      pagesize: 5
+    }).then(backData => {
+      console.log(backData);
+    });
   },
   methods: {
     tologin() {

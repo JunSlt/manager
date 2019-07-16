@@ -10,7 +10,7 @@ import login from '../views/login.vue'
 import index from '../views/index.vue'
 
 // 导入嵌套路由
-import usersList from '../views/userslist.vue'
+import users from '../views/users.vue'
 
 
 // 规则
@@ -33,8 +33,8 @@ const routes = [
     component: index,
     children:[
         {
-            path:'usersList',
-            component:usersList
+            path:'users',
+            component:users
         }
     ]
   }
